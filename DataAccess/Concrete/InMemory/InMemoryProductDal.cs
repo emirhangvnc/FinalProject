@@ -16,10 +16,11 @@ namespace DataAccess.Concrete.InMemory
             _products = new List<Product>
             {
                 new Product{ProductId=1,CategoryId=1,UnitPrice=15,UnitsInStock=10,ProductName="Bardak"},
-                new Product{ProductId=3,CategoryId=1,UnitPrice=157,UnitsInStock=17,ProductName="Cam"},
-                new Product{ProductId=4,CategoryId=1,UnitPrice=65,UnitsInStock=23,ProductName="Mouse Pad"},
-                new Product{ProductId=2,CategoryId=2,UnitPrice=2435,UnitsInStock=21,ProductName="Kamera"},
+                new Product{ProductId=2,CategoryId=1,UnitPrice=157,UnitsInStock=17,ProductName="Cam"},
+                new Product{ProductId=3,CategoryId=1,UnitPrice=65,UnitsInStock=23,ProductName="Porselen"},
+                new Product{ProductId=4,CategoryId=2,UnitPrice=2435,UnitsInStock=21,ProductName="Kamera"},
                 new Product{ProductId=5,CategoryId=2,UnitPrice=1000,UnitsInStock=14,ProductName="Telefon"},
+                new Product{ProductId=6,CategoryId=2,UnitPrice=50,UnitsInStock=56,ProductName="Telefon Tutacağı"},
             };
         }
         public void Add(Product product)
