@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class Product:IEntity
+    public class ProductDetailDto:IDto //İmza
     {
         public int ProductId { get; set; }
-        public int CategoryId { get; set; }
         public string ProductName { get; set; }
-        public short UnitsInStock { get; set; } //Stok Adedi
-        public decimal UnitPrice { get; set; } //fiyatı
+        public string CategoryName { get; set; }
+        public short UnitsInStock { get; set; }
+
     }
 }
