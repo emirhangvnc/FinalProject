@@ -16,14 +16,25 @@ namespace Business.Concrete
         {
             _categoryDal=categoryDal;
         }
+        public void Add(Category category)
+        {
+            _categoryDal.Add(category);
+        }
+        public void Delete(Category category)
+        {
+            _categoryDal.Delete(category);
+        }
         public List<Category> GetAll()
         {
             return _categoryDal.GetAll();   
         }
-
         public Category GetById(int categoryId)
         {
             return _categoryDal.Get(c => c.CategoryId == categoryId);
+        }
+        public void Update(Category category)
+        {
+            _categoryDal.Update(category);
         }
     }
 }
