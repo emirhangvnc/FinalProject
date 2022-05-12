@@ -1,12 +1,16 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.Results;
+using FluentValidation;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -19,22 +23,24 @@ namespace Business.Concrete
         }
 
         #region Void işemleri
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length<2)
-            {
-                //magic strings (Kötü Kullanımı)
-                //return new ErrorResult("Ürün ismi en az 2 karakter olmalıdır.");
-                return new ErrorResult(Messages.ProductNameInValid);
-            }
+            //Validation           
+            //ValidationTool.Validate(new ProductValidator(), product); //Doğrulama
+
+
+
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         } 
+
         public IResult Update(Product product)
         {
             _productDal.Update(product);
             return new SuccessResult(Messages.ProductUpdated);
         }
+
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);
