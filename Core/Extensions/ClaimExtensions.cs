@@ -6,7 +6,7 @@ using System.Security.Claims;
 namespace Core.Extensions
 {
     public static class ClaimExtensions
-    {
+    { //ICollection ve Claim gömülü yapılar
         public static void AddEmail(this ICollection<Claim> claims, string email)
         {
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, email));
@@ -25,6 +25,7 @@ namespace Core.Extensions
         public static void AddRoles(this ICollection<Claim> claims, string[] roles)
         {
             roles.ToList().ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role)));
+            //Foreach böylede yazılabilir
         }
     }
 }

@@ -13,6 +13,7 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Validation;
 using Business.CCS;
 using Core.Utilities.Business;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -27,7 +28,7 @@ namespace Business.Concrete
         }
 
         #region Void işemleri
-
+        [SecuredOperation("")] //Yetki Kontrolü
         [ValidationAspect(typeof(ProductValidator))] //Attribute
         public IResult Add(Product product)
         {
