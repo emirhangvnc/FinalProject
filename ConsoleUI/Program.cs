@@ -1,5 +1,8 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using Core.Utilities.Security.JWT;
 using DataAccess.Concrete.EntityFramework;
+using Entities.DTOs;
 using System;
 
 namespace ConsoleUI

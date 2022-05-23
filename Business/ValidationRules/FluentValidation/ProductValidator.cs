@@ -24,9 +24,9 @@ namespace Business.ValidationRules.FluentValidation
             //Tüm İsimler a ile başlamalı
             //Tel no'larında ki baştaki 0 gibi
         }
-        private bool StartWithA(string arg)
-        {
-            return arg.StartsWith("A"); //A ile başlamıyorsa bura çalışır başlıyorsa uğramaz buraya
-        }
+        //private bool StartWithA(string arg)
+        //{
+        //    return arg.StartsWith("A"); //A ile başlamıyorsa bura çalışır başlıyorsa uğramaz buraya
+        //}
     }
 }

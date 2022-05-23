@@ -5,7 +5,7 @@ using Castle.DynamicProxy;
 
 namespace Core.Utilities.Interceptors
 {
-
+    //Metotun üstüne bakar ve olanları çalıştırır
     public class AspectInterceptorSelector : IInterceptorSelector
     {
         public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)

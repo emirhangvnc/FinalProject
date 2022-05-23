@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
+using Core.Utilities.Business;
 using Core.Utilities.Security.JWT;
 using Entities.DTOs;
 
@@ -54,9 +55,10 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetByMail(email) != null)
+            IResult result = BusinessRules.Run(CheckIfUserExist(email));
+            if (result!= null)
             {
-                return new ErrorResult(Messages.UserAlreadyExists);
+                return new ErrorResult("Kullanıcı mevcut");
             }
             return new SuccessResult();
         }
@@ -66,6 +68,16 @@ namespace Business.Concrete
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims.Data);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+        }
+
+        private IResult CheckIfUserExist(string email)
+        {
+            var result = _userService.GetByMail(email).Data;
+            if (result!=null)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
         }
     }
 }

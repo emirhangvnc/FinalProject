@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using System.Linq;
 using DataAccess.Abstract;
 using System.Collections.Generic;
 
@@ -40,8 +41,7 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string email)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
+            return new SuccessDataResult<User>(_userDal.GetAll(u => u.Email == email).FirstOrDefault());
         }
-
     }
 }

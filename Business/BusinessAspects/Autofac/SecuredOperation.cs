@@ -9,33 +9,30 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Business.BusinessAspects.Autofac
 {
+    //JWT
     public class SecuredOperation : MethodInterception
     {
         private string[] _roles;
         private IHttpContextAccessor _httpContextAccessor;
-        //Microsoft.AspNetCore.Http
-        //Microsoft.AspNetCore.Abstractions
 
         public SecuredOperation(string roles)
         {
-            _roles = roles.Split(','); // roles.Split: Metni belirtilen karaktere göre ayırıp array atar
+            _roles = roles.Split(',');
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
-            //GetService: 
 
         }
 
         protected override void OnBefore(IInvocation invocation)
         {
             var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
-            //Kullancının claim rollerini bul
-            foreach (var role in _roles) //rollerini gez
+            foreach (var role in _roles)
             {
-                if (roleClaims.Contains(role)) //ilgili rol varsa return et, devam et
+                if (roleClaims.Contains(role))
                 {
                     return;
                 }
             }
-            throw new Exception(Messages.AuthorizationDenied); //yetkin yok hatası ver
+            throw new Exception(Messages.AuthorizationDenied);
         }
     }
 }

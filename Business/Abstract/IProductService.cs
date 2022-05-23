@@ -24,5 +24,6 @@ namespace Business.Abstract
         IResult Add(Product product); //Void için
         IResult Update(Product product);
         IResult Delete(Product product);
+        IResult AddTransactionalTest(Product product);
     }
 }

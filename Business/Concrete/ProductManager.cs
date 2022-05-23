@@ -14,6 +14,10 @@ using Core.Aspects.Autofac.Validation;
 using Business.CCS;
 using Core.Utilities.Business;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using System.Transactions;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Performance;
 
 namespace Business.Concrete
 {
@@ -28,8 +32,9 @@ namespace Business.Concrete
         }
 
         #region Void işemleri
-        [SecuredOperation("")] //Yetki Kontrolü
+        [SecuredOperation("product.add,admin")] //Yetki Kontrolü
         [ValidationAspect(typeof(ProductValidator))] //Attribute
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             //Validation           
@@ -53,21 +58,57 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")] ///I- içindeki bütün getleri sil
         public IResult Update(Product product)
         {
             _productDal.Update(product);
             return new SuccessResult(Messages.ProductUpdated);
         }
-
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);
             return new SuccessResult(Messages.ProductRemoved);
         }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            //Böylede Yazılabilir transactionScope eklemeden
+            //using(TransactionScope scope=new TransactionScope())
+            //{
+            //    try
+            //    {
+            //        scope.Complete(); //Başarılı Olursa
+            //    }
+            //    catch (Exception)
+            //    {
+            //        scope.Dispose(); //Başarısız olursa
+            //    }
+            //}
+            _productDal.Update(product);
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductUpdated);
+        }
         #endregion
 
+        //InMemoryCache
+        //Birkere çalışıp veri değişmeden geldiyse bundan sonra
+        //çağırıldığında veri tabanına gitmeden Cache'den gelir.
+        //Bellekte Key,value ile tutulur.
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
+            //Bu şekilde de yazılabilir.
+            //if (_cacheManager.IsAdd(""))
+            //{
+            //    return _cacheManager.Get<>();
+            //}
+            //else
+            //{
+            //    _cacheManager.Add(--);
+            //}
+
             if (DateTime.Now.Hour == 23)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
@@ -76,6 +117,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
 
+        [CacheAspect]
+        //[PerformanceAspect(10)] //Metotun çalışması 10 sn geçerse uyar
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
@@ -101,7 +144,7 @@ namespace Business.Concrete
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
-            if (result >= 10)
+            if (result >= 20)
             {
                 return new ErrorResult(Messages.ProductCountOfCategoryError);
             }

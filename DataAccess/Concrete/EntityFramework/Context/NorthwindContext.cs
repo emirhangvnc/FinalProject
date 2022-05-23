@@ -21,6 +21,14 @@ namespace DataAccess.Concrete.EntityFramework.Context
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Northwind;Trusted_Connection=True");
         }
         //hangi nesnenin db'deki hangi nesneye karşılık geliyor
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    //modelBuilder.Entity<User>().ToTable("Users");
+        //    modelBuilder.Entity<OperationClaim>().ToTable("OperationClaims");
+        //    modelBuilder.Entity<UserOperationClaim>().ToTable("UserOperationClaims");
+        //}
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -28,6 +36,5 @@ namespace DataAccess.Concrete.EntityFramework.Context
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
-
     }
 }
