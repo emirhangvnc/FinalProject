@@ -13,7 +13,7 @@ namespace Business.Abstract
     {
         //Datadan veri çekme ile ilgili olan IDataResult
         IDataResult<List<Product>> GetAll();
-        IDataResult<List<Product>> GetByCategoryId(int id); //By=ile
+        IDataResult<List<Product>> GetAllByCategoryId(int id); //By=ile
         IDataResult<List<Product>> GetByUnitPrice(decimal min,decimal max);
         IDataResult<List<ProductDetailDto>> GetProductDetails();
 

@@ -54,12 +54,12 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                //filtre oksa ilk kısım varsa filtreye göre
-                // : işareti = else
                 return filter == null ?
                     context.Set<TEntity>().ToList() :
                     context.Set<TEntity>().Where(filter).ToList();
             }
+                //filtre oksa ilk kısım varsa filtreye göre
+                // : işareti = else
         }
     }
 }
